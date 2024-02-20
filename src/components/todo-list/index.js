@@ -1,12 +1,24 @@
-function TodoList () {
+import {useState, useEffect} from "react";
+import {useLocalStorage} from 'usehooks-ts';
+
+function TodoList() {
+    // let todo;
+    const [todos, setTodos] = useLocalStorage('TODO_KEY',[]);
+
+    // function getTodos() {
+    //     // Get all todos from local storage and store it.
+    //     let todos = JSON.parse(localStorage.getItem('TODO_KEY')) || [];
+    //     // Update react state
+    //     setTodos(todos);
+    // }
+
+    // useEffect(getTodos, []);
+
     return (
         <ul>
-            <li>Complete online Javascript course</li>
-            <li>Jog around the park 3 times</li>
-            <li>10 minutes meditation</li>
-            <li>Read for 1 hour</li>
-            <li>Pick up groceries</li>
-            <li>Complete CSS course</li>
+            {todos.map(function(todo, index){
+                return <li key={index}>{todo}</li>
+            })}
         </ul>
     );
 }
