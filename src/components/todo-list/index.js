@@ -1,9 +1,15 @@
 import {useState, useEffect} from "react";
 import {useLocalStorage} from 'usehooks-ts';
+import TodoItem from "../todo-item";
+
 
 function TodoList() {
     // let todo;
     const [todos, setTodos] = useLocalStorage('TODO_KEY',[]);
+
+    function deleteAll () {
+        setTodos([]);
+    }
 
     // function getTodos() {
     //     // Get all todos from local storage and store it.
@@ -15,11 +21,14 @@ function TodoList() {
     // useEffect(getTodos, []);
 
     return (
-        <ul>
+        <section>
+            <button onClick={deleteAll} className="btn btn-danger my-4 ms-2">Delete All</button>
+        <ul className="list-group">
             {todos.map(function(todo, index){
-                return <li key={index}>{todo}</li>
+             return  <TodoItem todo={todo} index={index} />
             })}
         </ul>
+        </section>
     );
 }
 

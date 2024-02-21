@@ -21,15 +21,18 @@ function saveTodo () {
     // todos.push(todo);
     // Set all todo's in local storage
     setTodos([...todos, todo]);
+    // wipe the input
+    setTodo('');
 }
 
     return (
         <section className={styles.addTodo}>
             <input 
+            value={todo}
             onChange={collectInput}
             className={styles.addTodoInput} 
             placeholder="Start typing...." />
-            <button className= {`btn ${styles.btn}`} onClick={saveTodo}>Create</button>
+            <button className= "btn btn-primary" onClick={saveTodo}>Create</button>
         </section>
     );
 }
