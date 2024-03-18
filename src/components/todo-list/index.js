@@ -5,11 +5,23 @@ import TodoItem from "../todo-item";
 
 function TodoList() {
     // let todo;
-    const [todos, setTodos] = useLocalStorage('TODO_KEY',[]);
+    const [todos, setTodos] = useState([]);
+
+    const getTodos = async () => {
+        // Get todos from todo-api
+        const response = await fetch('http://localhost:4000/todos')
+        const data = await response.json();
+        console.log(data)
+        // Update todos state
+    }
 
     function deleteAll () {
         setTodos([]);
     }
+
+    useEffect(() => {
+        getTodos()
+    }, [])
 
     // function getTodos() {
     //     // Get all todos from local storage and store it.
