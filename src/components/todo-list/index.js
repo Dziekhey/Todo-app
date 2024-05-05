@@ -5,14 +5,17 @@ import TodoItem from "../todo-item";
 function TodoList() {
   // let todo;
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getTodos = async () => {
+    setLoading(true);
     // Get todos from todo-api
     const response = await fetch("http://localhost:4000/todos");
     const data = await response.json();
     console.log(data);
     // Update todos state
     setTodos(data);
+    setLoading(false);
   };
 
   async function deleteAll() {
@@ -44,11 +47,15 @@ function TodoList() {
       <button onClick={deleteAll} className="btn btn-danger my-4 ms-2">
         Delete All
       </button>
-      <ul className="list-group">
-        {todos.map(function (todo, index) {
-          return <TodoItem key={todo._id} todo={todo.title} index={index} />;
-        })}
-      </ul>
+      {loading ? (
+        <p>Loading......</p>
+      ) : (
+        <ul className="list-group">
+          {todos.map(function (todo, index) {
+            return <TodoItem key={todo._id} todo={todo} index={index} />;
+          })}
+        </ul>
+      )}
     </section>
   );
 }
