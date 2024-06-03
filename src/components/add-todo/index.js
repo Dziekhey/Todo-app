@@ -1,48 +1,43 @@
-import styles from './index.module.css';
-import {useLocalStorage} from 'usehooks-ts';
-import {useState} from 'react'
+import styles from "./index.module.css";
+import { useState } from "react";
 
-function AddTodo() {
-    const [todos, setTodos] = useLocalStorage('TODO_KEY',[]);
-    // let todo;
-    const [todo,setTodo] = useState('');
+function AddTodo({ onNewTodo }) {
+  // When local storage was used
+  // const [todos, setTodos] = useLocalStorage('TODO_KEY', []);
 
-function collectInput (event) {
-    // todo = event.target.value;
-    setTodo(event.target.value)
-}
+  // Save todo in database
+  const [todo, setTodo] = useState("");
 
-// const collectInput = (event) => {
-//     setTodo(event.target.value);
-// }
+  function collectInput(event) {
+    setTodo(event.target.value);
+  }
 
-    async function saveTodo () {
-    // Post todo to todo-api
-    const response = await fetch('http://localhost:4000/todos', {
-        method: 'POST',
-        body: JSON.stringify({
-            title: todo
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+  async function saveTodo() {
+    const response = await fetch("http://localhost:4000/todos", {
+      method: "POST",
+      body: JSON.stringify({ title: todo }),
+      headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();
-    console.log(data);
-    // wipe the input
-    setTodo('');
-}
+    // Call the function to update the parent state
+    onNewTodo(data);
+    // Clear the input field
+    setTodo("");
+  }
 
-    return (
-        <section className={styles.addTodo}>
-            <input 
-            value={todo}
-            onChange={collectInput}
-            className={styles.addTodoInput} 
-            placeholder="Start typing...." />
-            <button className= "btn btn-primary" onClick={saveTodo}>Create</button>
-        </section>
-    );
+  return (
+    <section className={styles.addTodo}>
+      <input
+        value={todo}
+        onChange={collectInput}
+        className={styles.addTodoInput}
+        placeholder="Start typing...."
+      />
+      <button className="btn btn-primary" onClick={saveTodo}>
+        Create
+      </button>
+    </section>
+  );
 }
 
 export default AddTodo;

@@ -1,49 +1,39 @@
 import { useState, useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
 import TodoItem from "../todo-item";
+import AddTodo from "../add-todo";
 
 function TodoList() {
-  // let todo;
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getTodos = async () => {
     setLoading(true);
-    // Get todos from todo-api
     const response = await fetch("http://localhost:4000/todos");
     const data = await response.json();
-    console.log(data);
-    // Update todos state
     setTodos(data);
     setLoading(false);
   };
 
   async function deleteAll() {
-    // Delete todos from todo-api
-    const response = await fetch("http://localhost:4000/todos", {
-      method: "DELETE",
-    });
-    const data = await response.json();
-    console.log(data);
-    // Update todos state
+    await fetch("http://localhost:4000/todos", { method: "DELETE" });
     setTodos([]);
   }
+
+  const handleNewTodo = (newTodo) => {
+    setTodos([...todos, newTodo]);
+  };
+
+  const handleDeleteTodo = (deletedTodoId) => {
+    setTodos(todos.filter((todo) => todo._id !== deletedTodoId));
+  };
 
   useEffect(() => {
     getTodos();
   }, []);
 
-  // function getTodos() {
-  //     // Get all todos from local storage and store it.
-  //     let todos = JSON.parse(localStorage.getItem('TODO_KEY')) || [];
-  //     // Update react state
-  //     setTodos(todos);
-  // }
-
-  // useEffect(getTodos, []);
-
   return (
     <section>
+      <AddTodo onNewTodo={handleNewTodo} />
       <button onClick={deleteAll} className="btn btn-danger my-4 ms-2">
         Delete All
       </button>
@@ -51,9 +41,13 @@ function TodoList() {
         <p>Loading......</p>
       ) : (
         <ul className="list-group">
-          {todos.map(function (todo, index) {
-            return <TodoItem key={todo._id} todo={todo} index={index} />;
-          })}
+          {todos.map((todo) => (
+            <TodoItem
+              key={todo._id}
+              todo={todo}
+              onDeleteTodo={handleDeleteTodo}
+            />
+          ))}
         </ul>
       )}
     </section>
