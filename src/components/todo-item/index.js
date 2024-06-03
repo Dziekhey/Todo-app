@@ -1,6 +1,6 @@
 function TodoItem({ todo, onDeleteTodo }) {
   const deleteOne = async () => {
-    await fetch(`http://localhost:4000/todos/${todo._id}`, {
+    await fetch(`https://todo-api-1bkn.onrender.com/todos/${todo._id}`, {
       method: "DELETE",
     });
     // Notify the parent about the deletion

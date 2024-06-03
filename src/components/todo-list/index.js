@@ -10,14 +10,14 @@ function TodoList() {
 
   const getTodos = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:4000/todos");
+    const response = await fetch("https://todo-api-1bkn.onrender.com/todos");
     const data = await response.json();
     setTodos(data);
     setLoading(false);
   };
 
   async function deleteAll() {
-    await fetch("http://localhost:4000/todos", { method: "DELETE" });
+    await fetch("https://todo-api-1bkn.onrender.com/todos", { method: "DELETE" });
     setTodos([]);
   }
 

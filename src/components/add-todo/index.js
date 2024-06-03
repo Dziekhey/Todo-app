@@ -13,7 +13,7 @@ function AddTodo({ onNewTodo }) {
   }
 
   async function saveTodo() {
-    const response = await fetch("http://localhost:4000/todos", {
+    const response = await fetch("https://todo-api-1bkn.onrender.com/todos", {
       method: "POST",
       body: JSON.stringify({ title: todo }),
       headers: { "Content-Type": "application/json" },
