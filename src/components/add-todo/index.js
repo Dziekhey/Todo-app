@@ -25,11 +25,18 @@ function AddTodo({ onNewTodo }) {
     setTodo("");
   }
 
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+        saveTodo();
+    }
+}
+
   return (
     <section className={styles.addTodo}>
       <input
         value={todo}
         onChange={collectInput}
+        onKeyDown={handleKeyDown}
         className={styles.addTodoInput}
         placeholder="Start typing...."
       />

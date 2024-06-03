@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import TodoItem from "../todo-item";
 import AddTodo from "../add-todo";
+// eslint-disable-next-line
+import styles from "./index.module.css"
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -39,6 +41,8 @@ function TodoList() {
       </button>
       {loading ? (
         <p>Loading......</p>
+      ) : todos.length === 0 ? (
+        <p>No Todos posted</p>
       ) : (
         <ul className="list-group">
           {todos.map((todo) => (
